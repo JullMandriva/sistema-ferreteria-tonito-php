@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: ferreteria-app
+        container_name: ferreteria-app
+        restart: always
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - laravel
+
+    web:
+        image: nginx:stable-alpine
+        container_name: ferreteria-web
+        restart: always
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - app
+        networks:
+            - laravel
+
+    db:
+        image: mysql:8.0
+        container_name: ferreteria-db
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+        ports:
+            - "33066:3306"
+        networks:
+            - laravel
+
+networks:
+    laravel:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local
+
