@@ -11,6 +11,15 @@ Route::get('/preguntas-frecuentes', [FaqController::class, 'index'])->name('faqs
 // Home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/contacto', function () {
+    return view('contacto.index');
+})->name('contacto.show');
+
+// Ruta para la Política de Privacidad
+Route::get('/politicas-de-privacidad', function () {
+    return view('legal.privacidad');
+})->name('legal.privacidad');
+
 // Login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');

@@ -1,21 +1,110 @@
+{{-- ------------------------------------------------------------- --}}
+{{-- OFFCANVAS CONTAINER: El menú lateral que se desliza (Mobile) --}}
+{{-- ------------------------------------------------------------- --}}
+<div class="offcanvas offcanvas-start bg-white" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 280px;">
+    <div class="offcanvas-header" style="background-color: #0d6efd;">
+        <h5 class="offcanvas-title text-white fw-bold" id="offcanvasNavbarLabel">Menú de Navegación</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        
+        {{-- AÑADIDO: ZONA DE ACCESO Y CARRITO DENTRO DEL OFFCANVAS (Tu ubicación deseada en móvil) --}}
+        <ul class="navbar-nav d-flex flex-row align-items-center justify-content-between gap-3 p-3 border-bottom w-100">
+            @auth
+                {{-- USUARIO LOGUEADO --}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-dark fw-bold d-flex align-items-center p-0" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-5 me-2"></i> {{ Auth::user()->name }}
+                    </a>
+                    <div class="dropdown-menu shadow">
+                        <a class="dropdown-item" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión</button>
+                        </form>
+                    </div>
+                </li>
+            @else
+                {{-- INVITADO --}}
+                <li class="nav-item">
+                    <a class="nav-link text-dark fw-bold d-flex align-items-center p-0" href="{{ route('login') }}">
+                        <i class="bi bi-person-circle fs-5 me-2"></i> Acceder
+                    </a>
+                </li>
+            @endauth
+            
+            {{-- Carrito de compras --}}
+            <li class="nav-item">
+                <a class="nav-link text-dark d-flex align-items-center p-0" href="#">
+                    <div class="position-relative">
+                        <i class="bi bi-cart" style="font-size: 1.8rem;"></i> 
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark border border-dark" style="font-size: 0.7rem;">0</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        
+        {{-- INICIO DE LA NAVEGACIÓN PRINCIPAL --}}
+        <ul class="navbar-nav fw-bold">
+            <li class="nav-item border-bottom"><a class="nav-link text-dark py-3 ps-3" href="{{ url('/') }}"><i class="bi bi-house-door-fill me-2"></i> Inicio</a></li>
+            
+            {{-- MENÚ DE HERRAMIENTAS (Contenido para Offcanvas) --}}
+            <li class="nav-item dropdown border-bottom">
+                <a class="nav-link dropdown-toggle text-dark py-3 ps-3" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-tools me-2"></i> Herramientas
+                </a>
+                <ul class="dropdown-menu border-0 p-0" style="position: static; display: block; background-color: #f1f1f1;">
+                    {{-- Usamos los mismos ítems del menú tools-menu, simplificados para móvil --}}
+
+                    <li class="nav-item"><a class="dropdown-item py-2" href="#">Herramientas de perforación y ajuste</a></li>
+                    <li class="nav-item"><a class="dropdown-item py-2" href="#">Herramientas de corte</a></li>
+                    <li class="nav-item"><a class="dropdown-item py-2" href="#">Herramientas de acabados</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Herramientas de limpieza</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Duplicadoras de Llaves</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Equipos para soldar</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Herramientas de medición</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Accesorios y repuestos</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Escaleras</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Compresoras</a></li>
+                    <li class="nav-item"><a class="dropdown-item" href="#">Cajas de herramientas</a></li>
+                </ul>
+            </li>
+            
+            <li class="nav-item border-bottom"><a class="nav-link text-dark py-3 ps-3" href="{{ route('faqs.index') }}"><i class="bi bi-question-circle-fill me-2"></i> Preguntas Frecuentes</a></li>
+            <li class="nav-item"><a class="nav-link text-dark py-3 ps-3" href="#"><i class="bi bi-award-fill me-2"></i> Clientes satisfechos</a></li>
+        </ul>
+        
+        <div class="p-3">
+            @guest
+                <a href="{{ route('login') }}" class="btn btn-outline-primary w-100 mt-3 d-none">Acceder (Solo Offcanvas Header)</a>
+            @endguest
+        </div>
+        
+    </div>
+</div>
+{{-- ------------------------------------------------------------- --}}
+
 <div class="bg-soft-blue text-center py-1 small fw-bold top-bar-container text-white" style="background-color: #0d6efd;">
     <span id="shipping-message" class="top-bar-message"></span>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
-    <div class="container-fluid py-1 py-lg-2"> 
+    <div class="container-fluid py-1 py-lg-2 d-flex justify-content-between align-items-center"> 
         
-        {{-- LOGO --}}
-        <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url('/') }}" style="font-size: 24px;">
+        {{-- 1. BOTÓN HAMBURGUESA (Izquierda) --}}
+        <button class="navbar-toggler border-0 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {{-- 2. LOGO (CENTRADO en móvil con Spacer) --}}
+        <a class="navbar-brand text-white fw-bold d-flex align-items-center mx-auto mx-lg-0" href="{{ url('/') }}" style="font-size: 24px;">
             <img src="{{ asset('img/IconoFerreteria_2.webp') }}" alt="Logo" width="40" height="40" class="d-inline-block me-2">
             <span>Ferretería Toñito</span>
         </a>
         
-        {{-- BOTÓN HAMBURGUESA --}}
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarCollapse" aria-controls="mainNavbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
+        {{-- 3. ESPACIADOR (Derecha, balancea la hamburguesa) --}}
+        <span class="d-lg-none" style="min-width: 48px; height: 40px;"></span> 
+        
         <div class="collapse navbar-collapse" id="mainNavbarCollapse">
             
             {{-- BUSCADOR CENTRAL --}}
@@ -26,22 +115,23 @@
                             <i class="bi bi-search"></i> 
                         </span>
                         <input class="form-control border-0 shadow-none" type="search" placeholder="Estoy buscando..." aria-label="Search">
-                        <button class="btn btn-soft-blue px-4 fw-bold" type="submit" style="z-index: 10; position: relative;">
+                        
+                        <button class="btn btn-soft-blue px-4 fw-bold" type="submit" style="z-index: 10; position: relative; background-color: #0d6efd !important; border-color: #0d6efd !important; color: white !important;">
                             Buscar
                         </button>
                     </div>
                 </form>
             </div>
 
-            {{-- ZONA DE USUARIO Y CARRITO --}}
-            <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-4 justify-content-end pb-2 pb-lg-0">
+            {{-- ZONA DE USUARIO Y CARRITO (CORRECTO: Solo visible en Desktop) --}}
+            <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-4 justify-content-end pb-2 pb-lg-0 d-none d-lg-flex">
                 
                 @auth
                     {{-- MENÚ USUARIO --}}
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle user-trigger" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             <i class="bi bi-person-circle fs-5"></i>
-                            <span class="fw-bold text-white">{{ Auth::user()->name }}</span>
+                            <span class="fw-bold text-white d-inline ms-1">{{ Auth::user()->name }}</span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end custom-dropdown animate slideIn" aria-labelledby="navbarDropdown">
@@ -61,8 +151,8 @@
                     {{-- INVITADO --}}
                     <li class="nav-item">
                         <a class="nav-link text-white d-flex align-items-center" href="{{ route('login') }}">
-                            <i class="bi bi-person-circle me-2 fs-4"></i> 
-                            <div class="d-flex flex-column" style="line-height: 1;">
+                            <i class="bi bi-person-circle fs-5"></i> 
+                            <div class="d-flex flex-column ms-2" style="line-height: 1;">
                                 <span class="fw-bold">Acceso Cuenta</span>
                             </div>
                         </a>
@@ -76,6 +166,7 @@
                             <i class="bi bi-cart" style="font-size: 1.8rem;"></i> 
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark border border-dark" style="font-size: 0.7rem;">0</span>
                         </div>
+                        
                         <div class="d-flex flex-column align-items-start" style="line-height: 1.2;">
                             <span class="fw-bold" style="font-size: 0.9rem;">Carrito</span>
                             <span class="text-warning small font-monospace">S/. 0.00</span>
@@ -87,7 +178,7 @@
     </div>
 </nav>
 
-{{-- NAVBAR SECUNDARIO (Categorías) --}}
+{{-- NAVBAR SECUNDARIO (Este menú solo se mantiene visible para DESKTOP) --}}
 <nav class="navbar navbar-expand-lg navbar-light d-none d-lg-block" style="background-color: #f8f9fa; border-top: 1px solid #eee;">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="secondaryNavbarCollapse">
@@ -225,7 +316,7 @@
                         {{-- 9. ESCALERAS (Simple) --}}
                         <li><a class="dropdown-item" href="#">Escaleras</a></li>
 
-                        {{-- 10. COMPRESORAS (NUEVO SUBMENÚ) --}}
+                        {{-- 10. COMPRESORAS --}}
                         <li class="dropdown-submenu position-relative">
                             <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
                                 Compresoras

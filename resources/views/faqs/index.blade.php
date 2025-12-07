@@ -17,10 +17,11 @@
                     estamos listos para ayudarte.
                 </p>
                 
+                {{-- CONEXIÓN AL FORMULARIO DE WHATSAPP --}}
                 <div class="d-grid gap-2">
-                    <button class="btn btn-outline-dark rounded-pill">
+                    <a href="{{ route('contacto.show') }}" class="btn btn-outline-dark rounded-pill">
                         Contáctanos
-                    </button>
+                    </a>
                     <button class="btn btn-dark rounded-pill">
                         Sobre nosotros
                     </button>
