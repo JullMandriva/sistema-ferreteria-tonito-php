@@ -87,7 +87,6 @@ body {
 }
 
 /* 1. SOLUCIÓN PARA EL BORDE AZUL (FOCUS STATE) */
-/* Elimina la sombra azul (focus ring) al hacer clic en el input o el ícono */
 .input-group .form-control:focus,
 .input-group-text:focus,
 .input-group .form-control:focus + .input-group-text {
@@ -95,7 +94,7 @@ body {
     border-color: #ced4da !important; /* Mantiene el color del borde neutro (gris) */
 }
 
-/* 2. SOLUCIÓN PARA LA "PARED INVISIBLE" (Merge Icon Border) */
+/* 2. SOLUCIÓN PARA LA "PARED INVISIBLE" */
 .input-group-text {
     border-right: none !important;
     background-color: white !important; 
@@ -167,114 +166,107 @@ body {
 }
 
 /* --- DASHBOARD --- */
-
-.table td.id-col, .table th.id-col {
-    display: none;
-}
-
-.btn-action-group {
-    display: flex;
-    gap: 0.3rem;
-    justify-content: center;
-}
-
-/* Barra de búsqueda + botón buscar */
-.dashboard-search-form {
-    display: flex;
-    gap: 0.3rem;
-    margin-bottom: 0.5rem;
-    align-items: center; /* Centrado vertical perfecto */
-}
-
-.dashboard-search-form input,
-.dashboard-search-form button {
-    height: 38px; /* Igual que botones de debajo */
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    display: flex;
-    align-items: center;
-}
-
-.dashboard-search-form button {
-    justify-content: center;
-}
-
-/* Botones Regresar/Nuevo/Venta */
-.dashboard-buttons {
-    display: flex;
-    gap: 0.3rem;
-    flex-wrap: wrap;
-    align-items: center; /* Centrado vertical con el form */
-}
-
-.dashboard-buttons a {
-    flex: 1;
-    height: 38px;
-    text-align: center;
-}
-
-/* Quitar negrita de celdas y encabezados */
-.table tbody td, .table thead th {
-    font-weight: normal;
-}
-
-/* Responsive mobile */
+.table td.id-col, .table th.id-col { display: none; }
+.btn-action-group { display: flex; gap: 0.3rem; justify-content: center; }
+.dashboard-search-form { display: flex; gap: 0.3rem; margin-bottom: 0.5rem; align-items: center; }
+.dashboard-search-form input, .dashboard-search-form button { height: 38px; font-size: 0.875rem; padding: 0.375rem 0.75rem; display: flex; align-items: center; }
+.dashboard-search-form button { justify-content: center; }
+.dashboard-buttons { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
+.dashboard-buttons a { flex: 1; height: 38px; text-align: center; }
+.table tbody td, .table thead th { font-weight: normal; }
 @media (max-width: 767.98px) {
-    .dashboard-search-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .dashboard-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
+    .dashboard-search-form { flex-direction: column; align-items: stretch; }
+    .dashboard-buttons { flex-direction: column; align-items: stretch; }
 }
+@media (min-width: 768px) { .dashboard-buttons a { flex: 0 0 auto; } }
 
-/* Responsive desktop */
-@media (min-width: 768px) {
-    .dashboard-buttons a {
-        flex: 0 0 auto;
-    }
-}
+/* Formularios Modernos */
+.form-control { background-color: #f8f9fa; border: 1px solid #ced4da; transition: all 0.3s ease; }
+.form-control:focus { background-color: #ffffff; border-color: #0d6efd; box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15); }
+.form-label { color: #495057; font-weight: 600; margin-bottom: 0.3rem; }
+.card-rounded { border-radius: 12px; }
+.card-header-rounded { border-radius: 12px 12px 0 0; }
 
 /* =========================================
-   Estilos Modernos para Formularios (Inputs)
+   MENÚ DE USUARIO (NAVBAR)
+   ========================================= */
+.user-trigger {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+    border-radius: 30px; transition: background-color 0.3s ease;
+}
+.user-trigger:hover { background-color: rgba(255, 255, 255, 0.15); color: white !important; text-decoration: none; }
+.custom-dropdown {
+    border: none; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 10px; min-width: 230px; margin-top: 15px !important;
+}
+.custom-dropdown::before {
+    content: ''; position: absolute; top: -6px; right: 20px; width: 12px; height: 12px;
+    background: white; transform: rotate(45deg); box-shadow: -2px -2px 5px rgba(0,0,0,0.03);
+}
+.custom-item {
+    border-radius: 10px; padding: 10px 15px; font-weight: 500; color: #555;
+    transition: all 0.2s ease; display: flex; align-items: center; text-decoration: none;
+}
+/* CORREGIDO: Eliminado el 'transform' para que no se mueva */
+.custom-item:hover { background-color: #f8f9fa; color: #0d6efd; }
+.custom-item.text-danger:hover { background-color: #fff5f5; color: #dc3545; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.animate { animation: slideIn 0.2s ease-out forwards; }
+
+/* =========================================
+   MENÚ DE HERRAMIENTAS (NIVELES 1 Y 2)
    ========================================= */
 
-/* Cajas de texto con fondo gris suave */
-.form-control {
-    background-color: #f8f9fa;
-    border: 1px solid #ced4da;
-    transition: all 0.3s ease;
-}
-
-/* Efecto al hacer clic en la caja (Focus) */
-.form-control:focus {
-    background-color: #ffffff;
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-}
-
-/* Etiquetas de los campos (Labels) */
-.form-label {
-    color: #495057;
-    font-weight: 600; /* fw-bold */
-    margin-bottom: 0.3rem;
-}
-
-/* Estilo para el grupo de input (ej: Precio S/.) */
-.input-group-text {
-    background-color: #e9ecef;
-    border: 1px solid #ced4da;
-    color: #495057;
-}
-
-/* Tarjeta con bordes redondeados suaves */
-.card-rounded {
+/* Estilos Generales del Menú */
+.tools-menu {
     border-radius: 12px;
+    padding: 10px 0;
+    min-width: 280px; 
 }
 
-.card-header-rounded {
-    border-radius: 12px 12px 0 0;
+/* Ítems del menú */
+.dropdown-item {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    color: #444;
+    transition: all 0.2s ease;
+    /* Mantenemos el borde transparente siempre para que no salte al aparecer el azul */
+    border-left: 3px solid transparent; 
+}
+
+/* CORREGIDO: Eliminado el 'padding-left' extra para que el texto no salte */
+.dropdown-item:hover {
+    background-color: #f0f7ff;
+    color: #0d6efd;
+    border-left: 3px solid #0d6efd; /* Solo cambia el color del borde */
+}
+
+/* --- SUBMENÚ LATERAL (NIVEL 2) --- */
+
+/* 1. El contenedor del submenú (Oculto por defecto) */
+.submenu-tools {
+    display: none; 
+    position: absolute;
+    left: 100%; 
+    top: 0;
+    margin-top: -5px; 
+    border-radius: 12px;
+    min-width: 240px;
+    background-color: white; 
+}
+
+/* 2. Lógica Hover: Solo en PC */
+@media (min-width: 992px) {
+    /* Nivel 1 */
+    .hover-dropdown:hover > .dropdown-menu {
+        display: block;
+        margin-top: 0;
+        animation: slideIn 0.2s ease-out forwards;
+    }
+
+    /* Nivel 2 */
+    .dropdown-submenu:hover > .submenu-tools {
+        display: block;
+        animation: slideIn 0.2s ease-out forwards;
+    }
 }

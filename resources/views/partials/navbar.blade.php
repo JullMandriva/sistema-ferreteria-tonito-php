@@ -34,32 +34,28 @@
             </div>
 
             {{-- ZONA DE USUARIO Y CARRITO --}}
-            {{-- Usamos 'justify-content-lg-end' para PC y 'justify-content-between' o 'start' en móvil si fuera necesario, 
-                 pero 'gap-3' ayuda a separar --}}
             <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-4 justify-content-end pb-2 pb-lg-0">
                 
                 @auth
                     {{-- MENÚ USUARIO --}}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-primary fw-bold d-flex align-items-center" 
-                           href="#" 
-                           id="userDropdown" 
-                           role="button" 
-                           data-bs-toggle="dropdown" 
-                           aria-expanded="false">
-                            <i class="bi bi-person-circle me-2 fs-4"></i> 
-                            {{ Auth::user()->name }}
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle user-trigger" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span class="fw-bold text-white">{{ Auth::user()->name }}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 me-2"></i> Acceder al CRUD</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión</button>
-                                </form>
-                            </li>
-                        </ul>
+
+                        <div class="dropdown-menu dropdown-menu-end custom-dropdown animate slideIn" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header text-muted small text-uppercase">Mi Cuenta</div>
+                            <a class="dropdown-item custom-item" href="{{ route('dashboard') }}">
+                                <i class="bi bi-speedometer2 me-2 text-primary"></i> Acceder al CRUD
+                            </a>
+                            <div class="dropdown-divider my-2"></div>
+                            <a class="dropdown-item custom-item text-danger" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="bi bi-box-arrow-right me-2"></i> {{ __('Cerrar Sesión') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+                        </div>
                     </li>
                 @else
                     {{-- INVITADO --}}
@@ -73,25 +69,19 @@
                     </li>
                 @endauth
 
-                {{-- CARRITO DE COMPRAS (RESTAURADO) --}}
+                {{-- CARRITO DE COMPRAS --}}
                 <li class="nav-item">
                     <a class="nav-link text-white d-flex align-items-center gap-2" href="#">
-                        {{-- Ícono con contador --}}
                         <div class="position-relative">
                             <i class="bi bi-cart" style="font-size: 1.8rem;"></i> 
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark border border-dark" style="font-size: 0.7rem;">
-                                0
-                            </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark border border-dark" style="font-size: 0.7rem;">0</span>
                         </div>
-                        
-                        {{-- Texto y Precio (Vuelven a aparecer) --}}
                         <div class="d-flex flex-column align-items-start" style="line-height: 1.2;">
                             <span class="fw-bold" style="font-size: 0.9rem;">Carrito</span>
                             <span class="text-warning small font-monospace">S/. 0.00</span>
                         </div>
                     </a>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -103,15 +93,157 @@
         <div class="collapse navbar-collapse" id="secondaryNavbarCollapse">
             <ul class="navbar-nav mx-auto fw-bold">
                 <li class="nav-item me-lg-5"><a class="nav-link text-dark" href="{{ url('/') }}">Inicio</a></li>
-                <li class="nav-item me-lg-5 dropdown">
-                    <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Herramientas</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Eléctricas</a></li>
-                        <li><a class="dropdown-item" href="#">Manuales</a></li>
-                        <li><a class="dropdown-item" href="#">Jardinería</a></li>
+                
+                {{-- MENÚ DE HERRAMIENTAS (Nivel 1) --}}
+                <li class="nav-item me-lg-5 dropdown hover-dropdown">
+                    <a class="nav-link dropdown-toggle text-dark" href="#" id="herramientasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Herramientas
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 tools-menu" aria-labelledby="herramientasDropdown">
+                        
+                        {{-- 1. HERRAMIENTAS DE PERFORACIÓN --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Herramientas de perforación y ajuste
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Kit's y COMBOS</a></li>
+                                <li><a class="dropdown-item" href="#">Taladros percutores</a></li>
+                                <li><a class="dropdown-item" href="#">Taladros atornilladores y percutores</a></li>
+                                <li><a class="dropdown-item" href="#">Atornilladores de impacto</a></li>
+                                <li><a class="dropdown-item" href="#">Llaves de impacto</a></li>
+                                <li><a class="dropdown-item" href="#">Atornilladores compactos</a></li>
+                                <li><a class="dropdown-item" href="#">Atornilladores de drywall</a></li>
+                                <li><a class="dropdown-item" href="#">Rotomartillos</a></li>
+                                <li><a class="dropdown-item" href="#">Demoledores</a></li>
+                                <li><a class="dropdown-item" href="#">Pistolas de clavos</a></li>
+                                <li><a class="dropdown-item" href="#">Mini taladros</a></li>
+                                <li><a class="dropdown-item" href="#">Taladros de banco</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- 2. HERRAMIENTAS DE CORTE --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Herramientas de corte
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Kit's y COMBOS</a></li>
+                                <li><a class="dropdown-item" href="#">Amoladoras - Esmeriles</a></li>
+                                <li><a class="dropdown-item" href="#">Sierras caladoras</a></li>
+                                <li><a class="dropdown-item" href="#">Sierras circulares - radiales</a></li>
+                                <li><a class="dropdown-item" href="#">Sierras ingleteadoras</a></li>
+                                <li><a class="dropdown-item" href="#">Sierras tronzadoras</a></li>
+                                <li><a class="dropdown-item" href="#">Sierras oscilantes</a></li>
+                                <li><a class="dropdown-item" href="#">Cortadoras de concreto y marmol</a></li>
+                                <li><a class="dropdown-item" href="#">Cortadoras de cerámica</a></li>
+                                <li><a class="dropdown-item" href="#">Motosierras</a></li>
+                                <li><a class="dropdown-item" href="#">Sierra de mesa</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- 3. HERRAMIENTAS DE ACABADOS --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Herramientas de acabados
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Fresadora de palma y router</a></li>
+                                <li><a class="dropdown-item" href="#">Mezcladoras y vibradoras</a></li>
+                                <li><a class="dropdown-item" href="#">Lijadoras y cepilladoras</a></li>
+                                <li><a class="dropdown-item" href="#">Pistola de pinturas</a></li>
+                                <li><a class="dropdown-item" href="#">Compresoras</a></li>
+                                <li><a class="dropdown-item" href="#">Pistolas de calor</a></li>
+                                <li><a class="dropdown-item" href="#">Pulidoras</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- 4. HERRAMIENTAS DE LIMPIEZA --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Herramientas de limpieza
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Aspiradoras/Sopladoras</a></li>
+                                <li><a class="dropdown-item" href="#">Aspiradoras de succión</a></li>
+                                <li><a class="dropdown-item" href="#">Hidrolavadoras</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- 5. DUPLICADORAS DE LLAVES (SIMPLE) --}}
+                        <li><a class="dropdown-item" href="#">Duplicadoras de Llaves</a></li>
+
+                        {{-- 6. EQUIPOS PARA SOLDAR --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Equipos para soldar
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Máquinas de soldar</a></li>
+                            </ul>
+                        </li>
+                        
+                        {{-- 7. HERRAMIENTAS DE MEDICIÓN --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Herramientas de medición
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Pinzas amperimétricas</a></li>
+                                <li><a class="dropdown-item" href="#">Medidores laser</a></li>
+                                <li><a class="dropdown-item" href="#">Multímetros</a></li>
+                                <li><a class="dropdown-item" href="#">Detector de voltaje</a></li>
+                                <li><a class="dropdown-item" href="#">Nivel laser</a></li>
+                                <li><a class="dropdown-item" href="#">Reglas</a></li>
+                                <li><a class="dropdown-item" href="#">Calibradores</a></li>
+                                <li><a class="dropdown-item" href="#">Balanzas</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- 8. ACCESORIOS Y REPUESTOS --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Accesorios y repuestos
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Para cortadoras de cerámica</a></li>
+                                <li><a class="dropdown-item" href="#">Para aspirado y limpieza</a></li>
+                                <li><a class="dropdown-item" href="#">Baterías y cargadores</a></li>
+                                <li><a class="dropdown-item" href="#">Discos de corte</a></li>
+                                <li><a class="dropdown-item" href="#">Brocas y cinceles</a></li>
+                            </ul>
+                        </li>
+
+
+                        {{-- 9. ESCALERAS (Simple) --}}
+                        <li><a class="dropdown-item" href="#">Escaleras</a></li>
+
+                        {{-- 10. COMPRESORAS (NUEVO SUBMENÚ) --}}
+                        <li class="dropdown-submenu position-relative">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Compresoras
+                                <i class="bi bi-chevron-right ms-2" style="font-size: 0.8rem;"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow border-0 submenu-tools">
+                                <li><a class="dropdown-item" href="#">Compresoras tradiciones</a></li>
+                                <li><a class="dropdown-item" href="#">Compresoras silenciosas (Libre de aceite)</a></li>
+                                <li><a class="dropdown-item" href="#">Compresoras verticales</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- 11. CAJAS DE HERRAMIENTAS (Simple) --}}
+                        <li><a class="dropdown-item" href="#">Cajas de herramientas</a></li>
                     </ul>
                 </li>
-                <li class="nav-item me-lg-5"><a class="nav-link text-dark" href="#">Preguntas Frecuentes</a></li>
+
+                <li class="nav-item me-lg-5"><a class="nav-link text-dark" href="{{ route('faqs.index') }}">Preguntas Frecuentes</a></li>
                 <li class="nav-item"><a class="nav-link text-dark" href="#">Clientes satisfechos</a></li>
             </ul>
         </div>
