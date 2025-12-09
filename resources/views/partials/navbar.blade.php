@@ -84,7 +84,8 @@
 </div>
 {{-- ------------------------------------------------------------- --}}
 
-<div class="bg-soft-blue text-center py-1 small fw-bold top-bar-container text-white" style="background-color: #0d6efd;">
+{{-- BARRA AZUL SUPERIOR (MODIFICADA: py-1 small -> py-2) --}}
+<div class="bg-soft-blue text-center py-2 fw-bold top-bar-container text-white" style="background-color: #0d6efd;">
     <span id="shipping-message" class="top-bar-message"></span>
 </div>
 
