@@ -9,8 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
-    // Nombre de la tabla
-    protected $table = 'products';
+    // AHORA APUNTA A LA TABLA CORRECTA
+    protected $table = 'productos'; // <-- ¡CORRECCIÓN CLAVE!
 
     // Campos que se pueden asignar masivamente (protección de seguridad)
     protected $fillable = [
@@ -20,5 +20,6 @@ class Product extends Model
         'cantidad',
         'codigo_sku',
         'ubicacion',
+        'imagen'
     ];
 }

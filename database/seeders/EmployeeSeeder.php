@@ -16,41 +16,49 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        // 1. Lista de los 4 trabajadores con sus datos de prueba
-        $employees = [
-            [
-                'name' => 'Jesús Rodríguez',
-                'username' => 'jrodriguez',
-                'email' => 'rodriguezjesas6@autonoma.edu.pe',
-                'password' => 'jesus123',
-            ],
+        $employeesWithRoles = [
+            // 1. Jull Gonzales (ADMINISTRADOR)
             [
                 'name' => 'Jull Gonzales',
                 'username' => 'jgonzales',
                 'email' => 'gonzalesjulde2@autonoma.edu.pe',
                 'password' => 'jull123',
+                'role' => 'administrador', // <-- ROL ASIGNADO
             ],
-            [
-                'name' => 'Mario Apaza',
-                'username' => 'mapaza',
-                'email' => 'mapazad@autonoma.edu.pe',
-                'password' => 'mario123',
-            ],
+            // 2. Martín Callupe (VENDEDOR)
             [
                 'name' => 'Martín Callupe',
                 'username' => 'mcallupe',
                 'email' => 'martinserna021@gmail.com',
                 'password' => 'martin123',
-            ]
+                'role' => 'vendedor', // <-- ROL ASIGNADO
+            ],
+            // 3. Mario Apaza (VENDEDOR)
+            [
+                'name' => 'Mario Apaza',
+                'username' => 'mapaza',
+                'email' => 'mapazad@autonoma.edu.pe',
+                'password' => 'mario123',
+                'role' => 'vendedor', // <-- ROL ASIGNADO
+            ],
+            // 4. Jesús Rodríguez (ALMACENERO)
+            [
+                'name' => 'Jesús Rodríguez',
+                'username' => 'jrodriguez',
+                'email' => 'rodriguezjesas6@autonoma.edu.pe',
+                'password' => 'jesus123',
+                'role' => 'almacenero', // <-- ROL ASIGNADO
+            ],
         ];
 
-        // 2. Insertar los usuarios en la base de datos
-        foreach ($employees as $employee) {
+        // Insertar los usuarios con sus roles
+        foreach ($employeesWithRoles as $employee) {
             User::create([
-                'name' => $employee['name'], // <--- CORRECCIÓN AÑADIDA
+                'name' => $employee['name'], 
                 'username' => $employee['username'],
                 'email' => $employee['email'],
-                'password' => Hash::make($employee['password']), // Hashear la contraseña
+                'password' => Hash::make($employee['password']),
+                'role' => $employee['role'], // <-- ¡Aquí se asigna el rol!
             ]);
         }
     }

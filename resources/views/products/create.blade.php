@@ -3,6 +3,10 @@
 @section('title', 'Añadir Nuevo Producto')
 
 @section('content')
+{{-- Importar Auth para usar Auth::user() --}}
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
 
 {{-- Contenedor principal --}}
 <div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
@@ -32,7 +36,8 @@
                 </div>
             @endif
 
-            <form action="{{ route('dashboard.store') }}" method="POST">
+            {{-- MODIFICACIÓN CLAVE: Se añade enctype para permitir la subida de archivos --}}
+            <form action="{{ route('dashboard.store') }}" method="POST" enctype="multipart/form-data"> 
                 @csrf
 
                 {{-- Fila 1: Nombre --}}
@@ -47,7 +52,7 @@
                     @enderror
                 </div>
 
-                {{-- Fila 2: SKU y Ubicación (AHORA JUNTOS) --}}
+                {{-- Fila 2: SKU y Ubicación --}}
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
                         <label for="codigo_sku" class="form-label">Código SKU</label>
@@ -73,6 +78,9 @@
 
                 {{-- Fila 3: Precio y Stock --}}
                 <div class="row g-3 mb-4">
+                    
+                    {{-- 🛑 RESTRICCIÓN DE ROL: PRECIO SOLO PARA ADMIN --}}
+                    @if (Auth::user()->isAdmin())
                     <div class="col-md-6">
                         <label for="precio" class="form-label">Precio (S/.)</label>
                         <div class="input-group">
@@ -86,7 +94,11 @@
                             <div class="invalid-feedback fw-bold d-block">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-6">
+                    @endif
+                    {{-- 🛑 FIN RESTRICCIÓN DE ROL: PRECIO --}}
+                    
+                    {{-- STOCK/CANTIDAD: Siempre visible para Admin y Almacenero --}}
+                    <div class="{{ Auth::user()->isAdmin() ? 'col-md-6' : 'col-12' }}"> 
                         <label for="cantidad" class="form-label">Stock / Cantidad</label>
                         <input type="number" name="cantidad" id="cantidad" 
                             class="form-control @error('cantidad') is-invalid @enderror" 
@@ -102,8 +114,18 @@
                 <div class="mb-4">
                     <label for="descripcion" class="form-label">Descripción</label>
                     <textarea name="descripcion" id="descripcion" rows="4" class="form-control" 
-                              placeholder="Escribe aquí los detalles del producto...">{{ old('descripcion') }}</textarea>
+                                 placeholder="Escribe aquí los detalles del producto...">{{ old('descripcion') }}</textarea>
                 </div>
+                
+                {{-- NUEVO CAMPO: IMAGEN --}}
+                <div class="mb-4">
+                    <label for="imagen" class="form-label">Imagen del Producto (Opcional)</label>
+                    <input type="file" name="imagen" id="imagen" class="form-control @error('imagen') is-invalid @enderror">
+                    @error('imagen')
+                        <div class="invalid-feedback fw-bold">{{ $message }}</div>
+                    @enderror
+                </div>
+                {{-- FIN NUEVO CAMPO --}}
 
                 {{-- Botón Guardar --}}
                 <div class="d-grid pt-2">
