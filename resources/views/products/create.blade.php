@@ -21,7 +21,7 @@
         {{-- Cuerpo --}}
         <div class="card-body p-4 p-md-5">
             
-            {{-- Alerta general (Opcional, útil para resumen rápido) --}}
+            {{-- Alerta general de errores --}}
             @if ($errors->any())
                 <div class="alert alert-danger shadow-sm border-0 rounded-3 mb-4">
                     <ul class="mb-0 small">
@@ -39,28 +39,36 @@
                 <div class="mb-4">
                     <label for="nombre" class="form-label">Nombre del Producto</label>
                     <input type="text" name="nombre" id="nombre" 
-                           class="form-control form-control-lg @error('nombre') is-invalid @enderror" 
-                           placeholder="Ej: Taladro Percutor..." 
-                           value="{{ old('nombre') }}" required>
-                    
+                        class="form-control form-control-lg @error('nombre') is-invalid @enderror" 
+                        placeholder="Nombre del producto" 
+                        value="{{ old('nombre') }}" required>
                     @error('nombre')
                         <div class="invalid-feedback fw-bold">{{ $message }}</div>
                     @enderror
                 </div>
 
-                {{-- Fila 2: SKU --}}
-                <div class="mb-4">
-                    <label for="codigo_sku" class="form-label">Código SKU</label>
-                    <input type="text" name="codigo_sku" id="codigo_sku" 
-                           class="form-control @error('codigo_sku') is-invalid @enderror" 
-                           placeholder="Ej: HER-001" 
-                           value="{{ old('codigo_sku') }}" required>
-                    
-                    @error('codigo_sku')
-                        <div class="invalid-feedback fw-bold d-block">
-                            <i class="bi bi-exclamation-triangle-fill"></i> {{ $message }}
-                        </div>
-                    @enderror
+                {{-- Fila 2: SKU y Ubicación (AHORA JUNTOS) --}}
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="codigo_sku" class="form-label">Código SKU</label>
+                        <input type="text" name="codigo_sku" id="codigo_sku" 
+                            class="form-control @error('codigo_sku') is-invalid @enderror" 
+                            placeholder="Código de Stock (SKU)" 
+                            value="{{ old('codigo_sku') }}" required>
+                        @error('codigo_sku')
+                            <div class="invalid-feedback fw-bold d-block">
+                                <i class="bi bi-exclamation-triangle-fill"></i> {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="ubicacion" class="form-label">Ubicación (Opcional)</label>
+                        <input type="text" name="ubicacion" id="ubicacion" 
+                            class="form-control @error('ubicacion') is-invalid @enderror" 
+                            placeholder="Ingrese la ubicación del producto" 
+                            value="{{ old('ubicacion') }}">
+                    </div>
                 </div>
 
                 {{-- Fila 3: Precio y Stock --}}
@@ -70,9 +78,9 @@
                         <div class="input-group">
                             <span class="input-group-text">S/.</span>
                             <input type="number" step="0.01" name="precio" id="precio" 
-                                   class="form-control @error('precio') is-invalid @enderror" 
-                                   placeholder="0.00" 
-                                   value="{{ old('precio') }}" required>
+                                class="form-control @error('precio') is-invalid @enderror" 
+                                placeholder="0.00" 
+                                value="{{ old('precio') }}" required>
                         </div>
                         @error('precio')
                             <div class="invalid-feedback fw-bold d-block">{{ $message }}</div>
@@ -81,9 +89,9 @@
                     <div class="col-md-6">
                         <label for="cantidad" class="form-label">Stock / Cantidad</label>
                         <input type="number" name="cantidad" id="cantidad" 
-                               class="form-control @error('cantidad') is-invalid @enderror" 
-                               placeholder="0" 
-                               value="{{ old('cantidad') }}" required>
+                            class="form-control @error('cantidad') is-invalid @enderror" 
+                            placeholder="0" 
+                            value="{{ old('cantidad') }}" required>
                         @error('cantidad')
                             <div class="invalid-feedback fw-bold d-block">{{ $message }}</div>
                         @enderror
@@ -93,7 +101,6 @@
                 {{-- Fila 4: Descripción --}}
                 <div class="mb-4">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    {{-- Nota: En textarea, el valor old() va DENTRO de las etiquetas, no en un atributo value --}}
                     <textarea name="descripcion" id="descripcion" rows="4" class="form-control" 
                               placeholder="Escribe aquí los detalles del producto...">{{ old('descripcion') }}</textarea>
                 </div>

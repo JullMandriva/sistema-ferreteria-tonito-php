@@ -188,8 +188,8 @@ body {
 .card-header-rounded { border-radius: 12px 12px 0 0; }
 
 /* =========================================
-   MENÚ DE USUARIO (NAVBAR)
-   ========================================= */
+    MENÚ DE USUARIO (NAVBAR)
+    ========================================= */
 .user-trigger {
     display: flex; align-items: center; gap: 8px; padding: 8px 12px;
     border-radius: 30px; transition: background-color 0.3s ease;
@@ -214,8 +214,8 @@ body {
 .animate { animation: slideIn 0.2s ease-out forwards; }
 
 /* =========================================
-   MENÚ DE HERRAMIENTAS (NIVELES 1 Y 2)
-   ========================================= */
+    MENÚ DE HERRAMIENTAS (NIVELES 1 Y 2)
+    ========================================= */
 
 /* Estilos Generales del Menú */
 .tools-menu {
@@ -269,4 +269,16 @@ body {
         display: block;
         animation: slideIn 0.2s ease-out forwards;
     }
+}
+
+/* --- CONTACTO / ALINEACIÓN DE CAMPOS --- */
+
+/* Clase para corregir la desalineación vertical del input de teléfono */
+.input-group-wrapper {
+    /* Altura estándar de un input de Bootstrap para forzar la alineación */
+    height: 38px;
+}
+.input-group-wrapper .iti {
+    /* Asegura que el contenedor del plugin intl-tel-input use Flexbox */
+    display: flex; 
 }

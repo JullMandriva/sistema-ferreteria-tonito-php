@@ -23,8 +23,10 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="telefono" class="form-label">Teléfono *</label>
-                            {{-- Se mantiene el placeholder vacío para que el JS lo maneje --}}
-                            <input type="tel" class="form-control" id="telefono" required placeholder="">
+                            {{-- ENVOLTURA AÑADIDA PARA ALINEACIÓN CON CSS --}}
+                            <div class="input-group-wrapper">
+                                <input type="tel" class="form-control" id="telefono" required placeholder="">
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -85,7 +87,7 @@
             telefonoInput.placeholder = placeholder;
         };
 
-        // 1. Aplicar el placeholder inmediatamente al cargar (SOLUCIÓN AL PROBLEMA)
+        // 1. Aplicar el placeholder inmediatamente al cargar 
         updatePlaceholder();
         
         // 2. Aplicar el placeholder cada vez que cambia la bandera
